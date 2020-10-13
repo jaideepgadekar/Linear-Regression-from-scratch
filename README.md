@@ -8,14 +8,14 @@ In this project I used linear regression to predict yearly amount spent by custo
 ## train.py
 
 In this file, I have trained the model on given data.
-```
+```python3
 import numpy as np
 from sklearn.preprocessing import PolynomialFeatures
 import pickle
 ```
 Loaded necessary libraries. PolynomialFeatures can be used to train polynomial-regression on the data to get more accuracy.
 
-```
+```python3
 #loading data
 def import_data():
     train_X = np.genfromtxt('train_X_lr.csv', delimiter = ',',dtype = np.float128, skip_header=1)
@@ -23,7 +23,7 @@ def import_data():
     return train_X,train_Y
 ```
 
-```
+```python3
 
 def compute_cost(X,Y,W):
     pred_Y = np.dot(X,W)
@@ -31,7 +31,7 @@ def compute_cost(X,Y,W):
     cost_value = mse/(2*len(X))
     return cost_value
 ```
-```
+```python3
 #Gradients of  cost function
 def compute_gradient_cost_function(X,Y,W):
     pred_Y = np.dot(X,W)
@@ -40,7 +40,7 @@ def compute_gradient_cost_function(X,Y,W):
     dW = dW.T
     return dW
 ```
-```
+```python3
 #updating parameters
 def optimist_weights_grad(X,Y,W,num_iter,learning_rate):
     for i in range(num_iter):
@@ -50,7 +50,7 @@ def optimist_weights_grad(X,Y,W,num_iter,learning_rate):
         print(i,cost)
     return W
 ```
-```
+```python3
 def train_model(X,Y):
 #training the model with desired polynomial regression
     X = np.insert(X,0,1, axis = 1)
@@ -62,7 +62,7 @@ def train_model(X,Y):
     return W
 ```    
         
-```
+```python3
 
 if __name__ == '__main__':
     X, Y = import_data()
@@ -76,14 +76,14 @@ if __name__ == '__main__':
 
 In this file, I have wrote prediction  function.
 
-```
+```python3
 import numpy as np
 import csv
 import sys
 import pickle
 from sklearn.preprocessing import PolynomialFeatures
 ```
-```
+```python3
 #importing data from paths
 def import_data_and_weights(test_X_file_path, weights_file_path):
     test_X = np.genfromtxt(test_X_file_path, delimiter=',', dtype=np.float128, skip_header=1)
@@ -91,7 +91,7 @@ def import_data_and_weights(test_X_file_path, weights_file_path):
         weights = pickle.load(f)
     return test_X, weights
 ```
-```
+```python3
 #predicting label with trained weights
 def predict_target_values(test_X, weights):
     test_X = np.insert(test_X, 0, 1, axis = 1)
@@ -100,7 +100,7 @@ def predict_target_values(test_X, weights):
     pred_Y = np.dot(test_X, weights)
     return pred_Y
 ```
-```
+```python3
 #saving predicted values to csv file
 def write_to_csv_file(pred_Y, predicted_Y_file_name):
     pred_Y = pred_Y.reshape(len(pred_Y), 1)
@@ -109,14 +109,14 @@ def write_to_csv_file(pred_Y, predicted_Y_file_name):
         wr.writerows(pred_Y)
         csv_file.close()
 ```
-```
+```python3
 
 def predict(test_X_file_path):
     test_X, weights = import_data_and_weights(test_X_file_path, "weights.pkl")
     pred_Y = predict_target_values(test_X, weights)
     write_to_csv_file(pred_Y, "predicted_test_Y_lr.csv")
 ```
-```
+```python3
 if __name__ == "__main__":
 #taking input test_X file path   
    test_X_file_path = sys.argv[1]
